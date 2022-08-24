@@ -172,10 +172,18 @@ group_sources(SRC_FILES)
 
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
+set(TARGET_DEFINES)
+
+if (UNIX)
+    list(APPEND TARGET_DEFINES _UNIX)
+endif()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    list(APPEND TARGET_DEFINES _LINUX)
+endif()
+
 target_compile_definitions(${PROJECT_NAME}
-    PRIVATE
-    -D_UNIX
-    -D_LINUX
+    PRIVATE ${TARGET_DEFINES}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
